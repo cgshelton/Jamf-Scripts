@@ -84,7 +84,7 @@
 # Help Button Configuration
   # The help button was changed to a popup. Button will appear if title is populated.
     HELP_BUBBLE_TITLE="What is this?"
-    HELP_BUBBLE_BODY="This tool is designed to assist with configuring a Mac for use at HashiCorp, it installs required security software as well as productivity software you will need day-to-day. If you run into issues, please $SUPPORT_CONTACT_DETAILS"
+    HELP_BUBBLE_BODY="This tool is designed to assist with configuring a Mac for use at HashiCorp, it installs required security software as well as productivity software you will need day-to-day. If you run into issues or have any questions, please $SUPPORT_CONTACT_DETAILS"
 
 #########################################################################################
 # Error Screen Text
@@ -101,11 +101,11 @@
 # Paragraph text that will display under the main heading. For a new line, use \n
 # If this variable is left blank, the generic message will appear. Leave single
 # quotes below as double quotes will break the new lines.
-	ERROR_MAIN_TEXT='Apologies, something went wrong while setting up your device. \n \n Please contact HashiCorp IT and someone will get your issue taken care of. \n \n'
+	ERROR_MAIN_TEXT='Apologies, something went wrong while setting up your device. \n \n Please contact the IT Help Desk at helpdesk@hashicorp.com and someone will get your issue taken care of. \n \n'
 	ERROR_MAIN_TEXT="$ERROR_MAIN_TEXT $SUPPORT_CONTACT_DETAILS"
 
 # Error status message that is displayed under the progress bar
-  ERROR_STATUS="Setup Failed...contact IT"
+  ERROR_STATUS="Setup Failed...contact the IT Help Desk"
 
 #########################################################################################
 # Trigger to be used to call the policy
@@ -721,13 +721,7 @@ TRIGGER="event"
 #		Hashicorp Custom Code
 ###########################################################################################################
 
-#Gather Logged in User + Serial Number & Set value of built-in variable
-#loggedInUser=$(/usr/sbin/scutil <<< "show State:/Users/ConsoleUser" | /usr/bin/awk '/Name :/ && ! /loginwindow/ { print $3 }')
-#echo "Logged in User:$loggedInUser"
-#serialNumber=$(/usr/sbin/system_profiler SPHardwareDataType | /usr/bin/awk '/Serial/ {print $4}')
-#echo "Serial Number:$serialNumber"
-#REG_TEXT_LABEL_2_VALUE="$loggedInUser"-"$serialNumber"
-#echo "ComputerName:$REG_TEXT_LABEL_2_VALUE"
+
 
 ###########################################################################################################
 ###########################################################################################################
@@ -764,9 +758,6 @@ TRIGGER="event"
 # Adding nice text and a brief pause for prettiness
   echo "Status: $INITAL_START_STATUS" >> "$DEP_NOTIFY_LOG"
   sleep 10
-
-
-
 
 
 
