@@ -31,7 +31,8 @@ java_version=`/Library/Internet\ Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/
    else
         result="Unknown Vendor"
    fi
+   result="Vendor:$result Version:$java_version "
 fi
 
-result="Vendor:$result Version:$java_version "
+
 echo "<result>$result</result>"
