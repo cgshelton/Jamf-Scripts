@@ -1,5 +1,16 @@
 #!/bin/bash
-# Version 2.0.7
+
+logfile="/Library/HashiCorpIT/provisioning.log"
+corpdir="/Library/HashiCorpIT/"
+
+#if log is present, stop processing commands
+if [ -f "$logfile" ] ; then
+  echo "configuration has already been completed, exiting..."
+  exit 0
+fi
+
+#Install DEPNotify Binary
+/usr/bin/sudo /usr/local/bin/jamf policy -event install-DEPNotify
 
 
 #########################################################################################
@@ -724,15 +735,6 @@ TRIGGER="event"
 ####Check whether policy has been ran previously####
 ############### if it has, stop! ###################
 ####################################################
-
-logfile="/Library/HashiCorpIT/provisioning.log"
-corpdir="/Library/HashiCorpIT/"
-
-#if log is present, stop processing commands
-if [ -f "$logfile" ] ; then
-  echo "configuration has already been completed, exiting..."
-  exit 0
-fi
 
 ###########################################################################################################
 ###########################################################################################################
