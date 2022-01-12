@@ -721,7 +721,19 @@ TRIGGER="event"
 #		Hashicorp Custom Code
 ###########################################################################################################
 
+####################################################
+####Check whether policy has been ran previously####
+############### if it has, stop! ###################
+####################################################
 
+logfile="/Library/HashiCorpIT/provisioning.log"
+corpdir="/Library/HashiCorpIT/"
+
+#if log is present, stop processing commands
+if [ -f "$logfile" ] ; then
+  echo "configuration has already been completed, exiting..."
+  exit 0
+fi
 
 ###########################################################################################################
 ###########################################################################################################
@@ -758,8 +770,6 @@ TRIGGER="event"
 # Adding nice text and a brief pause for prettiness
   echo "Status: $INITAL_START_STATUS" >> "$DEP_NOTIFY_LOG"
   sleep 10
-
-
 
 
 # Setting the status bar
@@ -829,7 +839,6 @@ TRIGGER="event"
     fi
   done
 
-
 ############################################################
 ### Pause for a little bit to make sure things finish up ###
 ############################################################
@@ -838,10 +847,41 @@ TRIGGER="event"
   Sleep 10
 
 ############################################################
-############################################################
-############################################################
 
+#################################################################
+### Create configuration complete log file to check for later ###
+#################################################################
+logfile="/Library/HashiCorpIT/provisioning.log"
+corpdir="/Library/HashiCorpIT/"
 
+#Grab today's Date
+today=$(date)
+
+#spacer, to make the log file look pretty
+spacer=" : "
+
+#status, to report completion
+status="Computer configured successfully"
+
+#Check for Corp Library Directory
+if [ ! -d "$corpdir" ]; then
+	#if it doesn't exist, create it.
+	mkdir "$corpdir"
+fi
+
+##look for configuration.log##
+if [ ! -f "$logfile" ] ; then
+	#if file does not exist, create it
+	touch "$logfile"
+fi
+
+###Write log entry to logfile and output to console###
+entry="$today$spacer$status"
+echo "$entry" >> "$logfile"
+
+#################################################################
+#################################################################
+#################################################################
 
 # Nice completion text
   echo "Status: $INSTALL_COMPLETE_TEXT" >> "$DEP_NOTIFY_LOG"
