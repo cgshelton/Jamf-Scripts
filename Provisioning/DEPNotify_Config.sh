@@ -1,7 +1,8 @@
 #!/bin/bash
 
-logfile="/Library/HashiCorpIT/provisioning.log"
-corpdir="/Library/HashiCorpIT/"
+##### Code to check and see if provisioning has been ran already, if it has, STOP ####
+logfile="/Library/HashiCorpIT/ExtensionAttributes/provisioning.log"
+hashi_dir="/Library/HashiCorpIT/"
 
 #if log is present, stop processing commands
 if [ -f "$logfile" ] ; then
@@ -12,6 +13,7 @@ fi
 #Install DEPNotify Binary
 /usr/bin/sudo /usr/local/bin/jamf policy -event install-DEPNotify
 
+######################################################################################
 
 #########################################################################################
 # Testing Mode
@@ -308,6 +310,7 @@ TRIGGER="event"
         "EMEA Remote"
         "US Remote"
         "SF Office"
+        "Other"
       )
 
     # Help Bubble for Input. If title left blank, this will not appear
@@ -352,6 +355,7 @@ TRIGGER="event"
         "Product Management"
         "Sales"
         "Security"
+        "Other"
       )
 
     # Help Bubble for Input. If title left blank, this will not appear
@@ -727,19 +731,6 @@ TRIGGER="event"
   chown "$CURRENT_USER":staff "$DEP_NOTIFY_CONFIG_PLIST"
   chmod 600 "$DEP_NOTIFY_CONFIG_PLIST"
 
-###########################################################################################################
-#		Hashicorp Custom Code
-###########################################################################################################
-
-####################################################
-####Check whether policy has been ran previously####
-############### if it has, stop! ###################
-####################################################
-
-###########################################################################################################
-###########################################################################################################
-###########################################################################################################
-
 # Opening the app after initial configuration
   if [ "$FULLSCREEN" = true ]; then
 ##    sudo -u "$CURRENT_USER" open -a "$DEP_NOTIFY_APP" --args -path "$DEP_NOTIFY_LOG" -fullScreen
@@ -820,12 +811,12 @@ TRIGGER="event"
   fi
 
 #########################################################
-## Play HashiCorp Welcome Video While policies run     ##
+## Code to run prior to starting policy loop           ##
 #########################################################
 
-	echo "Command: YouTube: LD6wAo-zNO8" >> "$DEP_NOTIFY_LOG"
+#Play Welcome Video
+echo "Command: YouTube: LD6wAo-zNO8" >> "$DEP_NOTIFY_LOG"
 
-#########################################################
 #########################################################
 #########################################################
 
@@ -849,34 +840,29 @@ TRIGGER="event"
 
 ############################################################
 
-#################################################################
-### Create configuration complete log file to check for later ###
-#################################################################
-logfile="/Library/HashiCorpIT/provisioning.log"
-corpdir="/Library/HashiCorpIT/"
+############################################################
+###         Code to run after Policies Complete          ###
+############################################################
 
-#Grab today's Date
+#defining some relevant variables
+hashi_dir="/Library/HashiCorpIT/"
+ea_dir="/Library/HashiCorpIT/ExtensionAttributes"
+logfile="/Library/HashiCorpIT/ExtensionAttributes/provisioning.log"
 today=$(date)
-
-#spacer, to make the log file look pretty
 spacer=" : "
-
-#status, to report completion
 status="Computer configured successfully"
 
-#Check for Corp Library Directory
-if [ ! -d "$corpdir" ]; then
-	#if it doesn't exist, create it.
-	mkdir "$corpdir"
-fi
+#Look for hashi_dir and ea_dir, if they don't exist, create them!
+if ! [[ -e "$hashi_dir" ]]; then /bin/mkdir -p "$hashi_dir" && /usr/bin/chflags hidden "$hashi_dir"; fi
+if ! [[ -e "$ea_dir" ]]; then /bin/mkdir -p "$ea_dir"; fi
 
-##look for configuration.log##
+#look for configuration.log
 if [ ! -f "$logfile" ] ; then
 	#if file does not exist, create it
 	touch "$logfile"
 fi
 
-###Write log entry to logfile and output to console###
+#Write log entry to logfile and output to console
 entry="$today$spacer$status"
 echo "$entry" >> "$logfile"
 
