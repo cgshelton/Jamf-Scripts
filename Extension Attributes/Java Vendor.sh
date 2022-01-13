@@ -28,7 +28,7 @@
 # Unknown = There is a Java JDK installed, but it is not from one of the listed vendors.
 
 jdk_installed=$(/usr/libexec/java_home 2>/dev/null)
-echo $jdk_installed
+#echo $jdk_installed
 result=None
 
 if [[ -n "$jdk_installed" ]]; then

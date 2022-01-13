@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Variable to locate provisioning log file
-logfile="/Library/HashiCorpIT/ExtensionAttributes/provisioning.log"
+logfile="/Library/HashiCorpIT/Logs/provisioning.log"
 output="False"
 
 #check to see if Provisioning Complete Log is present on device
