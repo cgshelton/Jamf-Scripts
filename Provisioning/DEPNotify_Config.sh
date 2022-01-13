@@ -1,8 +1,7 @@
 #!/bin/bash
 
 ##### Code to check and see if provisioning has been ran already, if it has, STOP ####
-logfile="/Library/HashiCorpIT/ExtensionAttributes/provisioning.log"
-hashi_dir="/Library/HashiCorpIT/"
+logfile="/Library/HashiCorpIT/Logs/provisioning.log"
 
 #if log is present, stop processing commands
 if [ -f "$logfile" ] ; then
@@ -847,14 +846,16 @@ echo "Command: YouTube: LD6wAo-zNO8" >> "$DEP_NOTIFY_LOG"
 #defining some relevant variables
 hashi_dir="/Library/HashiCorpIT/"
 ea_dir="/Library/HashiCorpIT/ExtensionAttributes"
+log_dir="/Library/HashiCorpIT/Logs"
 logfile="/Library/HashiCorpIT/ExtensionAttributes/provisioning.log"
 today=$(date)
 spacer=" : "
 status="Computer configured successfully"
 
-#Look for hashi_dir and ea_dir, if they don't exist, create them!
+#Look for hashi_dir, log_dir and ea_dir, if they don't exist, create them!
 if ! [[ -e "$hashi_dir" ]]; then /bin/mkdir -p "$hashi_dir" && /usr/bin/chflags hidden "$hashi_dir"; fi
 if ! [[ -e "$ea_dir" ]]; then /bin/mkdir -p "$ea_dir"; fi
+if ! [[ -e "$log_dir" ]]; then /bin/mkdir -p "$ea_dir"; fi
 
 #look for configuration.log
 if [ ! -f "$logfile" ] ; then
