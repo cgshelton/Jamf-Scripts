@@ -2,7 +2,7 @@
 
 #defining variables for cheking the status of the screen sharing service
 ScreenSharingStatus=$(/usr/bin/sudo /bin/launchctl list com.apple.screensharing)
-ExpectedScreenSharingResult=" Could not find service \"com.apple.screensharing\" in domain for system"
+ExpectedScreenSharingResult="Could not find service \"com.apple.screensharing\" in domain for system"
 
 #defining variables for cheking the status of the SSH service
 SSH_Status=$(/usr/bin/sudo /usr/sbin/systemsetup -getremotelogin)
