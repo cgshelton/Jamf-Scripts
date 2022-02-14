@@ -12,7 +12,7 @@ ExpectedSSHResult="Remote Login: Off"
 
 #if statement to check if screen sharing is enabled
 #This check doesn't work currently. We still get the intended outcome, however.
-if [ "$ScreenSharingStatus" != "$ExpectedScreenSharingResult" ]
+if [[ "$(sudo launchctl list com.apple.screensharing)" != "" ]]
 then
   #Set output variable to notify that Screen Sharing will be turned of, then run command to turn it off
   ScreenSharingOutput="Turning off Screen Sharing"
