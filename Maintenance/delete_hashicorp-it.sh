@@ -98,28 +98,15 @@ entry="$today$spacer$status"
 echo "$entry" >> "$logfile"
 
 #Delete hashicorp-it home folder
-/bin/rm -rf /Users/hashicorp-it/
+/usr/bin/chflags -Rf nouchg /Users/hashicorp-it
+/bin/rm -Rf /Users/hashicorp-it
 status="deleting hashicorp-it home folder..."
 #build and post to logfile
 entry="$today$spacer$status"
 echo "$entry" >> "$logfile"
 
+#Delete script
+rm -f /Library/HashiCorpIT/Scripts/delete_hashicorp-it.sh
 #post logfile to console & exit
 cat "$logfile"
 exit 0
-
-###Final validation###
-#status="Performing final validation check"
-#entry="$today$spacer$status"
-#echo "$entry" >> "$logfile"
-
-#if [ $tokenPresent == "No" ]; then
-#	#build and post to logfile
-#	status="Unable to delete account, exiting..."
-#	entry="$today$spacer$status"
-#	echo "$entry" >> "$logfile"
-#	#post logfile to jamf logs
-#	cat "$logfile"
-#	#stop processing commands
-#	exit 0
-#fi
