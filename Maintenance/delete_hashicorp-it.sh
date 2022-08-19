@@ -77,22 +77,22 @@ fi
 userPassword=$(/usr/bin/osascript<<END
 application "System Events"
 activate
-set the answer to text returned of (display dialog "HashiCorp IT Security Action, Please provide your password:" default answer "" with title "HashiCorp IT" with hidden answer buttons {"Continue"} default button 1)
+set the answer to text returned of (display dialog "HashiCorp IT Security Action, Please provide your computer password:" default answer "" with title "HashiCorp IT" with hidden answer buttons {"Continue"} default button 1)
 END
 )
 
-#If users closes prompt & does not enter a password, log an error
+#If users closes prompt & does not enter a password, log an error and exit
 if [ -z $userPassword ]; then
-status="User did not enter a password"
-exit 1
+	status="User did not enter a password"
+	entry="$today$spacer$status"
+	echo "$entry" >> "$logfile"
+	cat "$logfile"
+	exit 1
 else
-status="User provided a password"
+	status="User provided a password"
+	entry="$today$spacer$status"
+	echo "$entry" >> "$logfile"
 fi
-
-#build and post to logfile
-entry="$today$spacer$status"
-echo "$entry" >> "$logfile"
-
 
 ###Carry out account deletion action###
 
