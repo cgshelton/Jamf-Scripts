@@ -1,21 +1,31 @@
 #!/bin/bash
-logfile="/Library/HashiCorpIT/Logs/account_delete.log"
 
-#look for log file
-if [ ! -f "$logfile" ] ; then
-	#if file does not exist, create it
-	touch "$logfile"
-fi
-
-###Prep variables for Logging###
+#####Prep for Logging#####
 #Grab today's Date
 today=$(date)
 #spacer, to make the log file look pretty
 spacer=" : "
 #status, to report what happened
 status=""
+#Sample Log entry, if needed
 #entry="$today$spacer$status"
 #echo "$entry" >> "$logfile"
+
+#Variables for log directory & logfile
+logdir="/Library/HashiCorpIT/Logs/"
+logfile="/Library/HashiCorpIT/Logs/account_delete.log"
+
+#look for HashiCorp log directory
+if [ ! -d "$logdir" ]; then
+	#if it doesn't exist, create it.
+	mkdir "$logdir"
+fi
+
+#look for log file
+if [ ! -f "$logfile" ] ; then
+	#if file does not exist, create it
+	touch "$logfile"
+fi
 
 ###### Collect User Credentials to perform the action #####
 
@@ -29,10 +39,7 @@ echo "$entry" >> "$logfile"
 
 ######## Before prompting user for password, check to see if we can successfully remove the account #########
 
-###Validation Checks before we can delete the account###
-
 #check local directory for presence of hashicorp-it account
-#accountStatus=$( /usr/bin/dscl . -read /Users/hashicorp-it )
 if [[ $(dscl . list /Users | grep hashicorp-it) == "" ]]; then
 	accountPresent="No"
 	status="hashicorp-it account not present, no action needed"
@@ -48,7 +55,6 @@ else
 fi
 
 #confirm currently logged-in user has a secure token to perform the action we need
-#currentUserStatus=$( sysadminctl -secureTokenStatus $CurrentUser )
 currentUserStatus=$( dscl . -read /Users/$CurrentUser AuthenticationAuthority | grep -o SecureToken )
 
 #check if $currentUserStatus is empty, if so, account has no SecureToken
@@ -67,11 +73,11 @@ else
 fi
 
 
-#Prompt user for their Password
+#if above checks pass, prompt user for their Password
 userPassword=$(/usr/bin/osascript<<END
 application "System Events"
 activate
-set the answer to text returned of (display dialog "Please provide your password:" default answer "" with title "HashiCorp IT Security Action" with hidden answer buttons {"Continue"} default button 1)
+set the answer to text returned of (display dialog "HashiCorp IT Security Action, Please provide your password:" default answer "" with title "HashiCorp IT" with hidden answer buttons {"Continue"} default button 1)
 END
 )
 
@@ -97,6 +103,20 @@ status="deleting hashicorp-it account..."
 entry="$today$spacer$status"
 echo "$entry" >> "$logfile"
 
+if [[ $(dscl . list /Users | grep hashicorp-it) == "" ]]; then
+	accountPresent="No"
+	status="Account successfully deleted!"
+	entry="$today$spacer$status"
+	echo "$entry" >> "$logfile"
+	cat "$logfile"
+	exit 0
+else
+	accountStatus="Yes"
+	status="unable to delete account, did user enter their password correctly?"
+	entry="$today$spacer$status"
+	echo "$entry" >> "$logfile"
+fi
+
 #Delete hashicorp-it home folder
 /usr/bin/chflags -Rf nouchg /Users/hashicorp-it
 /bin/rm -Rf /Users/hashicorp-it
@@ -106,7 +126,7 @@ entry="$today$spacer$status"
 echo "$entry" >> "$logfile"
 
 #Delete script
-rm -f /Library/HashiCorpIT/Scripts/delete_hashicorp-it.sh
+/bin/rm -f /Library/HashiCorpIT/Scripts/delete_hashicorp-it.sh
 #post logfile to console & exit
 cat "$logfile"
 exit 0
