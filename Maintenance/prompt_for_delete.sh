@@ -9,6 +9,8 @@ fi
 #unhide account, hopefully
 /usr/bin/dscl . create /Users/hashicorp-it IsHidden 0
 
+
+#Define variables to fill Jamf Helper popup with
 JAMFHELPER='/Library/Application Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper'
 TITLE="ACTION REQUIRED - Hashicorp IT - ACTION REQUIRED"
 DESC="To increase the security of your device, we need your assistance
@@ -28,11 +30,13 @@ Your assistance & cooperation is greatly appreciated!
 -Hashicorp IT
 "
 
+#Display popup & collect what the user did (probably just clicked OK)
 RESULT=$("$JAMFHELPER" -windowType utility -title "$TITLE" -description "$DESC" -button1 "OK")
 
+#If's to check the $RESULT variable to see what the user did, and take some action. 
 if [ "$RESULT" == 0 ]; then
     # do button1 stuff
-    echo "OK was pressed!"
+    # echo "OK was pressed!"
     /usr/bin/open -b com.apple.systempreferences /System/Library/PreferencePanes/Accounts.prefPane
     exit 0
 
