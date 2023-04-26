@@ -5,7 +5,6 @@
 #About: This script nags a user to re-enable SIP at a Jamf-determined interval. 
 
 
-
 #check for hashi logo
 if [[ -e /Library/HashiCorpIT/Logos/HashiCorp_Logomark_White_zoomed.png ]]; then
   ICON="/Library/HashiCorpIT/Logos/HashiCorp_Logomark_White_zoomed.png"
@@ -39,10 +38,17 @@ if [ "$finalstatus" = "Disabled" ]
     #Define variables to fill Jamf Helper popup with
     JAMFHELPER='/Library/Application Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper'
     TITLE="HashiCorp IT Security Message"
-    HEADING="SIP is Disabled"
-    DESC="SIP Is disabled on this device. To avoid disruptions to your work, please re-enable SIP as soon as possible. 
+    HEADING="System Integrity Protection Status"
+    DESC="IT has detected that System Integrity Protection (SIP) is disabled on this Mac. HashiCorp Okta will require this for authentication very soon and to prevent disruptions to your work, please re-enable SIP as soon as possible.
 
-    If needed, please contact the Help Desk for further assistance "
+To reenable SIP, do the following:
+
+1.     Restart your computer in recovery mode.
+2.     Launch Terminal from the Utilities menu.
+3.     Run the following command: csrutil enable.
+4.     Restart your computer.
+
+If needed, please contact the Help Desk for further assistance."
 
     #show popup
     RESULT=$("$JAMFHELPER" -windowType hud -lockHUD -title "$TITLE" -heading "$HEADING" -description "$DESC" -icon "$ICON" -button1 "Dismiss" -cancelbutton 1)
