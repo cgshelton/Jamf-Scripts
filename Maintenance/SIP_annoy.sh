@@ -51,7 +51,8 @@ To reenable SIP, do the following:
 If needed, please contact the Help Desk for further assistance."
 
     #show popup
-    RESULT=$("$JAMFHELPER" -windowType hud -lockHUD -title "$TITLE" -heading "$HEADING" -description "$DESC" -icon "$ICON" -button1 "Dismiss" -cancelbutton 1)
+    RESULT=$("$JAMFHELPER" -windowType hud -lockHUD -title "$TITLE" -heading "$HEADING" -description "$DESC" -icon "$ICON" -button1 "Dismiss" -cancelbutton 1) &
+    echo "Displayed SIP Annoy popup to user"
 fi
 
 exit 0
