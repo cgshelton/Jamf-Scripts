@@ -14,24 +14,29 @@ else
   ICON="/Library/HashiCorpIT/Logos/HashiCorp_Logomark_White_zoomed.png"
 fi
 
-#Final, pre-poup check for OS version
+###Final, pre-poup check for OS version###
 #This helps us account for devices that have upgraded but have not updated ther inventory yet. 
 
+#Pull OS version and truncate to the first 2 characters, giving us a Major Version number only
 OSVERS=$(/usr/bin/sw_vers -productVersion | cut -c1-2)
+
+#If $OSVERS is 13, we are running Ventura, tell this to Jamf and Exit
 if [ "$OSVERS" = "13" ]
 then
 echo "Device is now running Ventura, exiting..."
 exit 0
 fi
 
+#If $OSVERS is 12, we are running Monterey, tell this to Jamf and Exit
 if [ "$OSVERS" = "12" ]
 then
 echo "Device is now running Monterey, exiting..."
 exit 0
 fi
 
+###After OS Version Checks, display popup to user###
 
- #Define variables to fill Jamf Helper popup with
+#Define variables to fill Jamf Helper popup with
 JAMFHELPER='/Library/Application Support/JAMF/bin/jamfHelper.app/Contents/MacOS/jamfHelper'
 TITLE="HashiCorp IT Security Message"
 HEADING="Unsupported Operating System Detected"
@@ -49,8 +54,10 @@ If needed, please contact the Help Desk for further assistance.
 
 "
 
-#show popup
+#show popup using variables above. This window features 1 button which closes the window. 
 RESULT=$("$JAMFHELPER" -windowType hud -lockHUD -title "$TITLE" -heading "$HEADING" -description "$DESC" -icon "$ICON" -button1 "Dismiss" -cancelbutton 1) &
+
+#report back to Jamf that we displayed the popup to the user
 echo "Displayed unsupported OS popup to user"
 
 exit 0
