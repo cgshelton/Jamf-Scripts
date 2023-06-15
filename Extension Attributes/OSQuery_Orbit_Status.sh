@@ -9,4 +9,4 @@ else
     echo "Not Installed"
 fi
 
-Exit 0
+exit 0
