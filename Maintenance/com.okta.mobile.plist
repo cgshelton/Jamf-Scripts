@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<managedAppConfiguration>
+<dict>
+<key>OktaVerify.EnrollmentOptions</key>
+<string>SilentEnrollmentEnabled</string>
+<key>OktaVerify.OrgUrl</key>
+<string>hashicorp.okta.com</string>
+<key>OktaVerify.ReportDiagnostics</key>
+<bool>false</bool>
+<key>OktaVerify.Plugins</key>
+<array>
+<string>com.crowdstrike.zta</string>
+</array>
+<key>com.crowdstrike.zta</key>
+<dict>
+<key>description</key>
+<string>description</string>
+<key>format</key>
+<string>JWT</string>
+<key>location</key>
+<string>/Library/Application Support/Crowdstrike/ZeroTrustAssessment/data.zta</string>
+<key>name</key>
+<string>com.crowdstrike.zta</string>
+<key>type</key>
+<string>file</string>
+</dict>
+</dict>
+</managedAppConfiguration>
+</plist>
