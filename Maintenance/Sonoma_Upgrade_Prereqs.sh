@@ -266,13 +266,15 @@ if [[ "$modelNumber" == "MacBookPro18,1" || "$modelNumber" == "MacBookPro18,2" |
 			log "ProMotion Check Passed, continuing..."
 		elif [[ $statusProMotionInternalDisplay != 120 ]]; then
         #Apple ProMotion is disabled, let the user know they need to turn it on to upgrade safely
-			twoButtonDialog "Your device has ProMotion disabled, please enable it in System Preferences -> Displays prior to upgrading"
-            Exit 1
+			twoButtonDialog "Your device has ProMotion disabled. You will need revert your Refresh Rate to ProMotion in System Preferences -> Displays prior to upgrading. 
+            
+If you do not see the option available, you may need to disconnect any external monitors. "
+            exit 1
 		fi
 	elif [[ $statusAppleClamshellState =~ "= Yes" ]]; then
         #Device is in clamshell mode, inform user that they need to open the lid on their device to upgrade safely
 			twoButtonDialog "Your device is in clamshell mode, please open the screen prior to upgrading."
-            Exit 1
+            exit 1
 	fi
 else
 	log "device is not succeptible to ProMotion Bug, continuing..."
