@@ -1,9 +1,43 @@
 #! /bin/bash
+
+#Parameters
+match_exact_process_name="true"
+send_notification="false"
+kill_process="true"
+delete_executable="true"
+display_message_part=" is not authorized for use on Hashicorp corporate-owned assets. Please contact the Help Desk for more information. "
+
+#Pull info from CSV
 while IFS="," read -r rec_column1 rec_column2 rec_column3 rec_column4
 do
-  echo "Display Name: $rec_column1"
-  echo "Process Name: $rec_column2"
-  echo "Message: $rec_column3 is not supported for use at Hashicorp. Please contact the Help Desk for more information. "
-  echo "match_exact_process_name: $rec_column4"
-  echo ""
-done < <(tail -n +2 RestrictedSoftware.csv)
+post="<restricted_software>
+	<general>
+		<name>$rec_column1</name>
+		<process_name>$rec_column2</process_name>
+		<match_exact_process_name>$rec_column4</match_exact_process_name>
+		<send_notification>$send_notification</send_notification>
+		<kill_process>$kill_process</kill_process>
+		<delete_executable>$delete_executable</delete_executable>
+		<display_message>$rec_column3$display_message_part</display_message>
+		<site>
+			<id>-1</id>
+			<name>None</name>
+		</site>
+	</general>
+	<scope>
+		<all_computers>false</all_computers>
+		<computers/>
+		<computer_groups/>
+		<buildings/>
+		<departments/>
+		<exclusions>
+			<computers/>
+			<computer_groups/>
+			<buildings/>
+			<departments/>
+			<users/>
+		</exclusions>
+	</scope>
+</restricted_software>"
+echo $post
+ done < <(tail -n +2 RestrictedSoftware.csv)
