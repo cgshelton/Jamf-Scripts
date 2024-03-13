@@ -1,0 +1,9 @@
+#! /bin/bash
+while IFS="," read -r rec_column1 rec_column2 rec_column3 rec_column4
+do
+  echo "Display Name: $rec_column1"
+  echo "Process Name: $rec_column2"
+  echo "Message: $rec_column3 is not supported for use at Hashicorp. Please contact the Help Desk for more information. "
+  echo "match_exact_process_name: $rec_column4"
+  echo ""
+done < <(tail -n +2 RestrictedSoftware.csv)
