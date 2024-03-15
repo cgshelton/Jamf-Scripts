@@ -1,13 +1,24 @@
 #! /bin/bash
 
-#Parameters
-match_exact_process_name="true"
-send_notification="false"
-kill_process="true"
-delete_executable="true"
-display_message_part=" is not authorized for use on Hashicorp corporate-owned assets. Please contact the Help Desk for more information. "
+#API Paramaters
+JamfProURL="https://hashicorpdev.jamfcloud.com" #URL of Jamf Pro Server
+username="null"							#username of account with privilges for writing to Jamf Pro
+password="null"		#password of account with priviliges for writing to Jamf Pro
 
-#Pull info from CSV
+#Parameters
+scopeGroupID="25" 								#smart group ID that will hold nested groups for initial deployment
+exclusionGroupID="26" 							#Static group ID to add devices to for exclusions
+fileName="3.15.24.csv" 							#local filename of CSV holding restricted software entries
+
+#RestrictedSoftware Additional Parameters
+send_notification="false"						#send email notification when this triggers?
+kill_process="true"								#kill process when triggered?
+delete_executable="true"						#delete executable binary when triggered?
+
+#message to display AFTER name listed in CSV
+display_message_part=" is not authorized for use on Hashicorp corporate-owned assets. Please contact the Help Desk for more information. " 
+
+#Pull info from CSV line by line.
 while IFS="," read -r rec_column1 rec_column2 rec_column3 rec_column4
 do
 post="<restricted_software>
@@ -27,17 +38,28 @@ post="<restricted_software>
 	<scope>
 		<all_computers>false</all_computers>
 		<computers/>
-		<computer_groups/>
+		<computer_groups>
+ 			<computer_group>
+            	<id>$scopeGroupID</id>
+        	</computer_group>
+		</computer_groups>
 		<buildings/>
 		<departments/>
 		<exclusions>
 			<computers/>
-			<computer_groups/>
+		<computer_groups>
+ 			<computer_group>
+            	<id>$exclusionGroupID</id>
+        	</computer_group>
+		</computer_groups>
 			<buildings/>
 			<departments/>
 			<users/>
 		</exclusions>
 	</scope>
 </restricted_software>"
-echo $post
- done < <(tail -n +2 RestrictedSoftware.csv)
+
+#attempt to post new restricted software entry based on current data
+/usr/bin/curl -u "$username:$password" --basic -L "$JamfProURL/JSSResource/restrictedsoftware/id/:0" -H 'Accept: application/xml' -H 'Content-Type: application/xml' -d "$post"
+#echo "$post" #debug
+ done < <(tail -n +2 ${fileName})
