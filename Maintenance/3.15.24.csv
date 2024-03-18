@@ -1,8 +1,4 @@
 Display Name,Process Name,Message snippit,match_exact_process_name
-ZeroTier 1,MacEthernetTapAgent,ZeroTier,TRUE
-ZeroTier 2,zerotier-one,ZeroTier,TRUE
-ZeroTier 3,ZeroTier,ZeroTier,TRUE
-Zabbix,zabbix_agentd,Zabbix,TRUE
 RealVNC,VNC Server,RealVNC,TRUE
 ToDesk,ToDesk,ToDesk,TRUE
 Teamviewer,Teamviewer,Teamviewer,TRUE
@@ -19,7 +15,6 @@ Pcvisit 1,Supporter-Modul,Pcvisit,TRUE
 Pcvisit 2,pcvisit_client,Pcvisit,TRUE
 Pcvisit 3,Remote-Host,Pcvisit,TRUE
 NoMachine,NoMachine,NoMachine,FALSE
-ngrok,ngrok,ngrok,TRUE
 LiteManager,LiteManager,LiteManager,TRUE
 Jump Desktop,Jump Desktop,Jump Desktop,TRUE
 ISL Light,ISL Light Client,ISL Light,TRUE

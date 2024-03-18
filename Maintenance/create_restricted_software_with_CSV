@@ -1,14 +1,14 @@
 #! /bin/bash
 
 #API Paramaters
-JamfProURL="https://hashicorpdev.jamfcloud.com" #URL of Jamf Pro Server
-username="null"							#username of account with privilges for writing to Jamf Pro
-password="null"		#password of account with priviliges for writing to Jamf Pro
+JamfProURL="Null" #URL of Jamf Pro Server
+username="Null"									#username of account with privilges for writing to Jamf Pro
+password="Null"									#password of account with priviliges for writing to Jamf Pro
 
 #Parameters
-scopeGroupID="25" 								#smart group ID that will hold nested groups for initial deployment
-exclusionGroupID="26" 							#Static group ID to add devices to for exclusions
-fileName="3.15.24.csv" 							#local filename of CSV holding restricted software entries
+scopeGroupID="Null" 								#smart group ID that will hold nested groups for initial deployment
+exclusionGroupID="Null" 							#Static group ID to add devices to for exclusions
+fileName="Null" 							#local filename of CSV holding restricted software entries
 
 #RestrictedSoftware Additional Parameters
 send_notification="false"						#send email notification when this triggers?
