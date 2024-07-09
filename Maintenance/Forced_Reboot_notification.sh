@@ -6,7 +6,7 @@ ICON="/Library/HashicorpIT/Logos/HashiCorp_Logomark_Black_zoomed.png"
 DATE="June 30, 2024"
 DESC="Due to Hashicorp's new endpoint password policy, Your computer will reboot in order to initiate a password change.
 
-When your computer reboots, you will need to set a new password. 
+When your computer reboots, you will be required to set a new password. 
 
 Your computer will reboot in approximately 5 minutes, please save any work and quit any open applications. 
 
